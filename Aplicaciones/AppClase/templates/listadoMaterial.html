@@ -1,0 +1,84 @@
+{% extends "./plantilla.html" %}
+
+{% block contenido %}
+<br>
+<br>
+<h3 class="text-center mb-4">Listado de Materiales</h3>
+<div class="card shadow">
+    <div class="card-body">
+        <!-- Campo de búsqueda -->
+        <div class="mb-3">
+            <label for="search" class="form-label"><strong>Buscar Material:</strong></label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" id="search" class="form-control" placeholder="Escribe para buscar...">
+            </div>
+        </div>
+        
+        <!-- Tabla con el ID necesario para el script -->
+        <table id="materialesTable" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>TÍTULO</th>
+                    <th>ARCHIVO</th>
+                    <th>CLASE</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for material in materiales %}
+                <tr>
+                    <td>{{ material.id_material }}</td>
+                    <td>{{ material.titulo }}</td>
+                    <td>
+                        <a href="{{ material.archivo.url }}" target="_blank" class="btn btn-info btn-sm">Ver Archivo</a>
+                    </td>
+                    <td>{{ material.clase_material.titulo }}</td>
+                    <td>
+                        <a href="/editarMaterial/{{ material.id_material }}" class="btn btn-warning btn-sm me-2">Editar</a>
+                        <a onclick="return confirm('¿Está seguro de eliminar este material?')" href="/eliminarMaterial/{{ material.id_material }}" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Script para el filtro de búsqueda -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("search");
+        const table = document.getElementById("materialesTable");
+        const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+        searchInput.addEventListener("keyup", function () {
+            const filter = searchInput.value.toLowerCase();
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                let match = false;
+
+                // Recorremos todas las celdas de la fila para buscar coincidencias
+                const cells = row.getElementsByTagName("td");
+                for (let j = 0; j < cells.length; j++) {
+                    const cell = cells[j];
+                    if (cell) {
+                        const text = cell.textContent || cell.innerText;
+                        if (text.toLowerCase().includes(filter)) {
+                            match = true;
+                            break;
+                        }
+                    }
+                }
+
+                // Mostramos u ocultamos la fila según si hay coincidencia
+                row.style.display = match ? "" : "none";
+            }
+        });
+    });
+</script>
+
+{% endblock %}

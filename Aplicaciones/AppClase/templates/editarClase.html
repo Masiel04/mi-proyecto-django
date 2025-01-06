@@ -1,0 +1,39 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div class="container mt-4">
+    <form action="{% url 'procesarEdicionClase' %}" id="frm_editar_clase" method="post" class="p-4 border rounded bg-light">
+        <h3 class="mb-3 text-center">Actualizar Clase:</h3>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_clase" class="form-label"><b>ID:</b></label>
+            <input type="hidden" name="id_clase" value="{{ clase.id_clase }}" >
+            <input type="text" class="form-control" id="id_clase" value="{{ clase.id_clase }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label"><b>TÍTULO:</b></label>
+            <input type="text" name="txt_titulo" id="txt_titulo" class="form-control" required value="{{ clase.titulo }}">
+        </div>
+        
+        <div class="mb-3">
+            <label for="descripcion" class="form-label"><b>DESCRIPCIÓN:</b></label>
+            <textarea name="txt_descripcion" id="txt_descripcion" class="form-control" rows="3" required>{{ clase.descripcion }}</textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="video_url" class="form-label"><b>URL DEL VIDEO:</b></label>
+            <input type="url" name="txt_url" id="txt_url" class="form-control" required value="{{ clase.video_url }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="fecha_publicacion" class="form-label"><b>FECHA DE PUBLICACIÓN:</b></label>
+            <input type="date" name="fecha_publicacion" id="fecha_publicacion" class="form-control" required value="{{ clase.fecha_publicacion|date:'Y-m-d' }}">
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-success me-2">Guardar</button>
+            <a href="/listadoClase/" class="btn btn-danger">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

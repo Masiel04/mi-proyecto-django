@@ -1,0 +1,47 @@
+{% extends "./plantilla.html" %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <!-- Formulario alineado a la izquierda -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">REGISTRO DE ENTREGA DE TAREA</h3>
+                    <form action="{% url 'guardarEntrega' %}" id="frm_nueva_entrega" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Selección de Tarea -->
+                        <div class="mb-3">
+                            <label for="tarea" class="form-label"><b>TAREA:</b></label>
+                            <select name="id_tarea" id="id_tarea" class="form-control" required>
+                                {% for tarea in tareas %}
+                                    <option value="{{ tarea.id_tarea }}">{{ tarea.descripcion }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Subida de Archivo -->
+                        <div class="mb-3">
+                            <label for="archivo_entrega" class="form-label"><b>ARCHIVO DE ENTREGA:</b></label>
+                            <input type="file" name="archivo_entrega" id="archivo_entrega" class="form-control" required>
+                        </div>
+
+                        <!-- Comentarios -->
+                        <div class="mb-3">
+                            <label for="comentario_estud" class="form-label"><b>COMENTARIOS (Opcional):</b></label>
+                            <textarea name="comentario_estud" id="comentario_estud" class="form-control" rows="4" placeholder="Escribe tus comentarios aquí..."></textarea>
+                        </div>
+
+                        <!-- Botones de Acción -->
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

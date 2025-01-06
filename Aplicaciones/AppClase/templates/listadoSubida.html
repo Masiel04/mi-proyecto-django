@@ -1,0 +1,39 @@
+{% extends "./plantilla.html" %}
+
+{% block contenido %}
+<br>
+<br>
+<h3 class="text-center mb-4">Listado de Tareas Entregadas</h3>
+<div class="card shadow">
+    <div class="card-body">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>TAREA</th>
+                    <th>ARCHIVO</th>
+                    <th>COMENTARIO</th>
+                    <th>FECHA DE ENTREGA</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for su in subidas %}
+                <tr>
+                    <td>{{ su.tarea_en.descripcion }}</td>
+                    <td>
+                        <!-- Mostrar el enlace para descargar el archivo -->
+                        <a href="{{ su.archivo_entrega.url }}" target="_blank">Ver archivo</a>
+                    </td>
+                    <td>{{ su.comentario_estud }}</td>
+                    <td>{{ su.fecha_entregaT }}</td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No se han encontrado entregas de tareas.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

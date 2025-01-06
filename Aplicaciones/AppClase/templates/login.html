@@ -1,0 +1,30 @@
+{% extends 'plantilla.html' %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block contenido %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="text-center mb-4">Iniciar Sesión</h3>
+                <form action="{% url 'login_views' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label"><b>Correo Electrónico:</b></label>
+                        <input type="email" name="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label"><b>Contraseña:</b></label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                        <a href="{% url 'nuevaClase' %}" class="btn btn-secondary">Registrarse</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

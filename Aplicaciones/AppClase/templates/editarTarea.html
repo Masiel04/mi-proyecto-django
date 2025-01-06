@@ -1,0 +1,54 @@
+{% extends "./plantilla.html" %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <!-- Añadimos clases de Bootstrap para centrar y darle borde al formulario -->
+    <div class="border p-4 rounded-3 shadow-lg">
+        <h3 class="mb-4 text-center">Actualizar Tarea</h3>
+        <form action="/procesarEdicionTarea/" id="frm_editar_tarea" method="post">
+            {% csrf_token %}
+
+            <!-- Campo ID (oculto y visible) -->
+            <div class="mb-3">
+                <label for="id_tarea" class="form-label"><b>ID:</b></label>
+                <input type="hidden" name="id_tarea" value="{{ tarea.id_tarea }}">
+                <input type="text" class="form-control" id="id_tarea" value="{{ tarea.id_tarea }}" readonly>
+            </div>
+
+            <!-- Campo Descripción -->
+            <div class="mb-3">
+                <label for="descripcion" class="form-label"><b>Descripción:</b></label>
+                <input type="text" name="descripcion" id="descripcion" class="form-control" 
+                       value="{{ tarea.descripcion }}" required>
+            </div>
+
+            <!-- Campo Fecha de Entrega -->
+            <div class="mb-3">
+                <label for="fecha_entrega" class="form-label"><b>Fecha de Entrega:</b></label>
+                <input type="date" name="fecha_entrega" id="fecha_entrega" class="form-control" 
+                       value="{{ tarea.fecha_entrega }}" required>
+            </div>
+
+            <!-- Campo Clase -->
+            <div class="mb-3">
+                <label for="clase" class="form-label"><b>Clase:</b></label>
+                <select name="clase" id="clase" class="form-select" required>
+                    <option value="" disabled>Seleccione una Clase</option>
+                    {% for clase in clases %}
+                        <option value="{{ clase.id_clase }}"
+                                {% if clase.id_clase == tarea.clase_tarea.id_clase %} selected {% endif %}>
+                                {{ clase.titulo }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-success me-2">Guardar</button>
+                <a href="/listadoTarea/" class="btn btn-danger">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

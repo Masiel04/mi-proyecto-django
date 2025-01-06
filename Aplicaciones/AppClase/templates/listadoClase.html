@@ -1,0 +1,83 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<br>
+<br>
+<h3 class="text-center mb-4">Detalle de Clases</h3>
+<div class="card shadow">
+    <div class="card-body">
+        <!-- Campo de búsqueda -->
+        <div class="mb-3">
+            <label for="search" class="form-label"><strong>Buscar Clase:</strong></label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" id="search" class="form-control" placeholder="Escribe para buscar...">
+            </div>
+        </div>
+        
+        <!-- Tabla con el ID necesario para el script -->
+        <table id="respuestasTable" class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>TÍTULO</th>
+                    <th>DESCRIPCIÓN</th>
+                    <th>URL DEL VIDEO</th>
+                    <th>FECHA DE PUBLICACIÓN</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for clase in clases %}
+                <tr>
+                    <td>{{ clase.id_clase }}</td>
+                    <td>{{ clase.titulo }}</td>
+                    <td>{{ clase.descripcion }}</td>
+                    <td><a href="{{ clase.video_url }}" target="_blank">Ver Video</a></td>
+                    <td>{{ clase.fecha_publicacion }}</td>
+                    <td>
+                        <a href="/editarClase/{{ clase.id_clase }}" class="btn btn-warning btn-sm me-2">Editar</a>
+                        <a onclick="return confirm('¿Está seguro de eliminar permanentemente?')" href="/eliminarClase/{{ clase.id_clase }}" class="btn btn-danger btn-sm">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Script para el filtro de búsqueda -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("search");
+            const table = document.getElementById("respuestasTable");
+            const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+            searchInput.addEventListener("keyup", function () {
+                const filter = searchInput.value.toLowerCase();
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+                    let match = false;
+
+                    // Recorremos todas las celdas de la fila para buscar coincidencias
+                    const cells = row.getElementsByTagName("td");
+                    for (let j = 0; j < cells.length; j++) {
+                        const cell = cells[j];
+                        if (cell) {
+                            const text = cell.textContent || cell.innerText;
+                            if (text.toLowerCase().includes(filter)) {
+                                match = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    // Mostramos u ocultamos la fila según si hay coincidencia
+                    row.style.display = match ? "" : "none";
+                }
+            });
+        });
+    </script>
+</div>
+{% endblock %}
+

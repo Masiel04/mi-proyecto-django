@@ -1,0 +1,45 @@
+{% extends "./plantilla.html" %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <!-- Formulario alineado a la izquierda -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">REGISTRO DE MATERIAL EDUCATIVO</h3>
+                    <form action="{% url 'guardarMaterial' %}" id="frm_nuevo_material" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="clase" class="form-label"><b>CLASE:</b></label>
+                            <select name="id_clase" id="id_clase" class="form-control" required>
+                                {% for clase in clases %}
+                                    <option value="{{ clase.id_clase }}">{{ clase.titulo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label"><b>TÍTULO:</b></label>
+                            <input type="text" name="txt_titulo" id="txt_titulo" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="archivo" class="form-label"><b>ARCHIVO:</b></label>
+                            <input type="file" name="txt_archivo" id="txt_archivo" class="form-control" required>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-secondary">Cancelar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

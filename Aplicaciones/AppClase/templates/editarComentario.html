@@ -1,0 +1,57 @@
+{% extends "./plantilla.html" %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <!-- Añadimos clases de Bootstrap para centrar y darle borde al formulario -->
+    <div class="border p-4 rounded-3 shadow-lg">
+        <h3 class="mb-4 text-center">Actualizar Comentario</h3>
+        <form action="/procesarEdicionComentario/" id="frm_editar_tarea" method="post">
+            {% csrf_token %}
+
+            <!-- Campo ID (oculto y visible) -->
+            <div class="mb-3">
+                <label for="id_retro" class="form-label"><b>ID:</b></label>
+                <input type="hidden" name="id_retro" value="{{ comentario.id_retro }}">
+                <input type="text" class="form-control" id="id_retro" value="{{ retro.id_retro }}" readonly>
+            </div>
+
+            <!-- Campo Descripción -->
+            <div class="mb-3">
+                <label for="descripcion" class="form-label"><b>Comentario:</b></label>
+                <input type="text" name="descripcion" id="descripcion" class="form-control" 
+                       value="{{ retro.comentario }}" required>
+            </div>
+
+            <!-- Campo Fecha de Entrega -->
+            <div class="mb-3">
+                <label for="fecha" class="form-label"><b>Fecha de Retroalimentación:</b></label>
+                <input type="date" name="fecha" id="fecha" class="form-control" 
+                       value="{{ retro.fecha }}" required>
+            </div>
+
+            <!-- Campo Clase -->
+            <div class="mb-3">
+                <label for="clase" class="form-label"><b>Archivo entregado:</b></label>
+                <select name="archivo" id="archivo" class="form-select" >
+                    <option value="" disabled>Seleccione una Entrega</option>
+                    {% for entrega in entregas %}
+                        <option value="{{ entrega.id_entrega }}"
+                                {% if entrega.id_entrega == retro.entrega_tarea_r.id_entrega %}
+
+                                selected {% endif %}>
+                                {{ entrega.archivo_entrega.url }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+             
+            
+            <!-- Botones de Acción -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-success me-2">Guardar</button>
+                <a href="/listadoTarea/" class="btn btn-danger">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

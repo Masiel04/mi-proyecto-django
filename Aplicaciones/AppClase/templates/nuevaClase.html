@@ -1,0 +1,44 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <!-- Formulario alineado a la izquierda -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">REGISTRO DE CLASE</h3>
+                    <form action="{% url 'guardarClase' %}" id="frm_nueva_clase" method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label"><b>TÍTULO:</b></label>
+                            <input type="text" name="txt_titulo" id="txt_titulo" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label"><b>DESCRIPCIÓN:</b></label>
+                            <textarea name="txt_descripcion" id="txt_descripcion" class="form-control" rows="3" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="video_url" class="form-label"><b>URL DEL VIDEO:</b></label>
+                            <input type="url" name="txt_url" id="txt_url" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_publicacion" class="form-label"><b>FECHA DE PUBLICACIÓN:</b></label>
+                            <input type="date" name="fecha_publicacion" id="fecha_publicacion" class="form-control" value="{{ hoy|date:'Y-m-d' }}" required>
+                        </div>
+
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-secondary">Cancelar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

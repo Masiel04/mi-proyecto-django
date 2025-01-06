@@ -1,0 +1,48 @@
+{% extends "./plantilla.html" %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <!-- Formulario alineado a la izquierda -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">REGISTRO DE TAREA</h3>
+                    <form action="{% url 'guardarTarea' %}" id="frm_nueva_tarea" method="POST">
+                        {% csrf_token %}
+
+                        <!-- Selección de clase -->
+                        <div class="mb-3">
+                            <label for="clase_tarea" class="form-label"><b>CLASE:</b></label>
+                            <select name="clase_tarea" id="clase_tarea" class="form-control" required>
+                                {% for clase in clases %}
+                                    <option value="{{ clase.id_clase }}">{{ clase.titulo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Descripción de la tarea -->
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label"><b>DESCRIPCIÓN:</b></label>
+                            <textarea name="descripcion" id="descripcion" class="form-control" rows="4" required></textarea>
+                        </div>
+
+                        <!-- Fecha de entrega -->
+                        <div class="mb-3">
+                            <label for="fecha_entrega" class="form-label"><b>FECHA DE ENTREGA:</b></label>
+                            <input type="date" name="fecha_entrega" id="fecha_entrega" class="form-control" required>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-secondary">Cancelar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

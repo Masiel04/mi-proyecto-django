@@ -1,0 +1,44 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<div class="container mt-4">
+    <form action="{% url 'procesarEdicionMaterial' %}" id="frm_editar_material" method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+        <h3 class="mb-3 text-center">Actualizar Material:</h3>
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="id_material" class="form-label"><b>ID:</b></label>
+            <input type="hidden" name="id_material" value="{{ material.id_material }}">
+            <input type="text" class="form-control" id="id_material" value="{{ material.id_material }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label"><b>TÍTULO:</b></label>
+            <input type="text" name="txt_titulo" id="txt_titulo" class="form-control" required value="{{ material.titulo }}">
+        </div>
+        
+        <div class="mb-3">
+            <label for="archivo" class="form-label"><b>ARCHIVO:</b></label>
+            <input type="file" name="txt_archivo" id="txt_archivo" class="form-control">
+            <small class="form-text text-muted">Deja este campo vacío si no deseas cambiar el archivo.</small>
+        </div>
+        
+        <div class="mb-3">
+            <label for="clase" class="form-label"><b>CLASE:</b></label>
+            <select name="txt_clase" id="txt_clase" class="form-select">
+                <option value="" disabled selected>Seleccione una Clase</option>
+                {% for clase in clases %}
+                    <option value="{{ clase.id_clase }}"
+                        {% if clase.id_clase == material.clase_material.id_clase %} selected {% endif %}>
+                        {{ clase.titulo }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success me-2">Guardar</button>
+            <a href="/listadoMaterial/" class="btn btn-danger">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

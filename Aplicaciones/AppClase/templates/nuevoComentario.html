@@ -1,0 +1,42 @@
+{% extends "./plantilla.html" %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center align-items-center">
+        <!-- Formulario alineado a la izquierda -->
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h3 class="text-center mb-4">REGISTRO DE RETROALIMENTACIÓN</h3>
+                    <form action="{% url 'guardarComentario' %}" id="frm_nueva_comen" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Selección de Tarea -->
+                        <div class="mb-3">
+                            <label for="txt_entrega" class="form-label"><b>ARCHIVO DE TAREA:</b></label>
+                            <select name="txt_entrega" id="txt_entrega" class="form-control" required>
+                                {% for entrega in entregas %}
+                                    <option value="{{ entrega.id_entrega}}">{{ entrega.archivo_entrega.url }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Comentarios -->
+                        <div class="mb-3">
+                            <label for="comentario" class="form-label"><b>COMENTARIO:</b></label>
+                            <textarea name="comentario" id="comentario" class="form-control" rows="4" placeholder="Escribe tus comentarios aquí..."></textarea>
+                        </div>
+
+
+                        <!-- Botones de Acción -->
+                        <div class="d-flex justify-content-center gap-2">
+                            <button type="submit" class="btn btn-primary">Guardar Comentario</button>
+                            <button type="reset" class="btn btn-secondary">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
